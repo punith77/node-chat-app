@@ -11,9 +11,21 @@ var io = socketIO(server);
 
 io.on('connection', (socket)=>{
   console.log('new user connected');
+
+socket.emit('newMessage', {
+  from: 'Nani',
+  text: 'I like node js',
+  cretatedAt:123
+});
+
+socket.on('createMessage', (message)=>{
+  console.log('createMessage', message)
+})
+
   socket.on('disconnect', ()=>{
     console.log('User Disconnected')
-  })
+  });
+
 });
 
 
