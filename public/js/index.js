@@ -1,19 +1,32 @@
 var socket = io();
 socket.on('connect', function(){
   console.log('connected to server');
-  socket.emit('createMessage', {
-    from:'Punith',
-    text:'I like react'
-  });
+
 });
 
 
 
 socket.on('newMessage', function(message){
+console.log('newMessage', message);
+var li = jQuery('<li></li>');
+li.text(`${message.from}: ${message.text}`);
 
-  console.log('newMessage', message)
+jQuery('#messages').append(li)
 });
 
 socket.on('disconnect', function(){
   console.log('disconnected from the server');
-})
+});
+
+
+
+
+jQuery('#message-form').on('submit', function(e){
+  e.preventDefault();
+  socket.emit('createMessage',{
+    from: 'User',
+    text: jQuery('[name=message]').val()
+  },function(){
+
+  })
+});
